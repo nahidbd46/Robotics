@@ -70,6 +70,7 @@ class MeltPoolClassifier:
         input_size: int = 64,
         num_classes: int = 3,
         device: str | None = None,
+        class_names: list[str] | None = None,
     ) -> None:
         self.input_size = input_size
         self.num_classes = num_classes
@@ -80,7 +81,15 @@ class MeltPoolClassifier:
         else:
             self.device = torch.device(device)
         self.model = _ClassifierNet(num_classes, input_size).to(self.device)
-        self.class_names = CLASS_NAMES[:num_classes]
+        if class_names is not None:
+            if len(class_names) != num_classes:
+                raise ValueError(
+                    f"class_names length ({len(class_names)}) must match "
+                    f"num_classes ({num_classes})"
+                )
+            self.class_names = list(class_names)
+        else:
+            self.class_names = CLASS_NAMES[:num_classes]
 
     # ------------------------------------------------------------------
     # Preprocessing

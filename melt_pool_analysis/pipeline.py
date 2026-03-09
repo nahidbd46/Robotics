@@ -69,7 +69,7 @@ class MeltPoolPipeline:
             if crop.size == 0:
                 det["classification"] = {
                     "label": det["label"],
-                    "class_id": -1,
+                    "class_id": None,
                     "confidence": 0.0,
                 }
                 continue
